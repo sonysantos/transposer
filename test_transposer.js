@@ -18,7 +18,7 @@ function run(atual, desejado, tamanho, texto) {
   set('tom_desejado', desejado);
   set('tamanho_acidente', String(tamanho));
   set('cifra_original', texto);
-  transposar();
+  transpor();
   return el('cifra_final').value;
 }
 

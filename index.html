@@ -133,7 +133,7 @@ function transporNota(nota, intervalo, tipo) {
   return escreverNota(pc, tipo);
 }
 
-function transposar() {
+function transpor() {
   var tomAtual = document.getElementById('tom_atual').value;
   var tomDesejado = document.getElementById('tom_desejado').value;
   var texto = document.getElementById('cifra_original').value.replace(/\r\n/g, '\n');
@@ -221,23 +221,23 @@ function aplicarFonte() {
   document.getElementById('cifra_original').style.fontFamily = f;
   document.getElementById('cifra_final').style.fontFamily = f;
   document.getElementById('tamanho_acidente').value = f === 'monospace' ? '1' : '2';
-  transposar();
+  transpor();
 }
 
 function ligarEventos() {
   var ids = ['tom_atual', 'tom_desejado', 'cifra_original'];
   ids.forEach(function (id) {
-    document.getElementById(id).addEventListener('input', transposar);
-    document.getElementById(id).addEventListener('change', transposar);
+    document.getElementById(id).addEventListener('input', transpor);
+    document.getElementById(id).addEventListener('change', transpor);
   });
-  document.getElementById('tamanho_acidente').addEventListener('input', transposar);
+  document.getElementById('tamanho_acidente').addEventListener('input', transpor);
   document.getElementById('fonte').addEventListener('change', aplicarFonte);
   document.getElementById('btn_colar').addEventListener('click', colarCifra);
   document.getElementById('btn_copiar').addEventListener('click', copiarCifra);
   document.getElementById('cifra_original').addEventListener('paste', function () {
     setTimeout(function () {
       ajustarTomAtualParaUltimaNota(document.getElementById('cifra_original').value);
-      transposar();
+      transpor();
     }, 0);
   });
 }
@@ -266,7 +266,7 @@ function colarCifra() {
       if (texto) {
         campo.value = texto;
         ajustarTomAtualParaUltimaNota(texto);
-        transposar();
+        transpor();
       }
     }).catch(function () {
       colarManual(campo);
@@ -322,7 +322,7 @@ function avisarCopiado() {
 preencherTons();
 aplicarFonte();
 ligarEventos();
-transposar();
+transpor();
 </script>
 </body>
 </html>
