@@ -215,6 +215,8 @@ function aplicarFonte() {
   var f = document.getElementById('fonte').value;
   document.getElementById('cifra_original').style.fontFamily = f;
   document.getElementById('cifra_final').style.fontFamily = f;
+  document.getElementById('tamanho_acidente').value = f === 'monospace' ? '1' : '2';
+  transposar();
 }
 
 function ligarEventos() {

@@ -37,3 +37,4 @@ interface: uma página web (index.html) totalmente em javascript frontend, para 
     - quando o tamanho_acidente for ímpar, o número de espaços removidos à direita deve ser um a mais que à esquerda;
     - se o acorde estiver no começo da linha, todos os espaços devem ser removidos à direita;
     - se o acorde estiver no final da linha, todos os espaços devem ser removidos à esquerda.
+- ao mudar a fonte das cifras para Monospaced, o tamanho_acidente deve ser ajustado automaticamente para 1; caso contrário, deve ser ajustado para 2.
