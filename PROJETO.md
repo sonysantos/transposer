@@ -14,6 +14,8 @@ interface: uma página web (index.html) totalmente em javascript frontend, para 
 - Um campo com opção da escolha da fonte para os campos de texto que terão a cifra, com 3 opções: monospaced, sans-serif e serif.
 - Um campo de entrada de texto (id cifra_original) onde o usuário pode digitar ou colar a cifra no tom original.
 - Um campo de saída de texto (id cifra_final) onde o programa exibirá a cifra transposta.
+- Um botão abaixo do campo cifra_original, para o usuário colar a cifra nesse campo.
+- Um botão abaixo do campo cifra_final, para o usuário copiar seu conteúdo para a área de transferência.
 
 ## Como ativar a transposição automática
 - Toda vez que houver mudança nas listas de dropdown

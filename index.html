@@ -40,6 +40,17 @@
     font-family: monospace;
   }
   #cifra_final { background: #f7f7f7; }
+  .caixa button {
+    align-self: flex-start;
+    padding: .4em .8em;
+    font-size: .9em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f0f0f0;
+    cursor: pointer;
+  }
+  .caixa button:hover { background: #e4e4e4; }
+  .caixa button:active { background: #d8d8d8; }
 </style>
 </head>
 <body>
@@ -73,10 +84,12 @@
       <label for="cifra_original">Cifra no tom original</label>
       <textarea id="cifra_original" spellcheck="false">C  G  Am  Em  F  C
 C7  B7  Bb  G7</textarea>
+      <button type="button" id="btn_colar">Colar cifra</button>
     </div>
     <div class="caixa">
       <label for="cifra_final">Cifra transposta</label>
       <textarea id="cifra_final" readonly spellcheck="false"></textarea>
+      <button type="button" id="btn_copiar">Copiar cifra</button>
     </div>
   </div>
 
@@ -212,6 +225,67 @@ function ligarEventos() {
   });
   document.getElementById('tamanho_acidente').addEventListener('input', transposar);
   document.getElementById('fonte').addEventListener('change', aplicarFonte);
+  document.getElementById('btn_colar').addEventListener('click', colarCifra);
+  document.getElementById('btn_copiar').addEventListener('click', copiarCifra);
+}
+
+function colarCifra() {
+  var campo = document.getElementById('cifra_original');
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    navigator.clipboard.readText().then(function (texto) {
+      if (texto) {
+        campo.value = texto;
+        transposar();
+      }
+    }).catch(function () {
+      colarManual(campo);
+    });
+  } else {
+    colarManual(campo);
+  }
+}
+
+function colarManual(campo) {
+  campo.focus();
+  var ok = false;
+  try { ok = document.execCommand('paste'); } catch (e) {}
+  if (!ok) {
+    alert('Seu navegador não permite colar automaticamente. Clique no campo e pressione Ctrl+V.');
+  }
+}
+
+function copiarCifra() {
+  var campo = document.getElementById('cifra_final');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(campo.value).then(function () {
+      avisarCopiado();
+    }).catch(function () {
+      copiarManual(campo);
+    });
+  } else {
+    copiarManual(campo);
+  }
+}
+
+function copiarManual(campo) {
+  campo.focus();
+  campo.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) {}
+  if (!ok) {
+    alert('Não foi possível copiar. Selecione o texto e pressione Ctrl+C.');
+  } else {
+    avisarCopiado();
+  }
+}
+
+function avisarCopiado() {
+  var botao = document.getElementById('btn_copiar');
+  var rotulo = botao.textContent;
+  botao.textContent = 'Copiado!';
+  setTimeout(function () {
+    botao.textContent = rotulo;
+  }, 1500);
 }
 
 preencherTons();
