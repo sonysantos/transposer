@@ -125,3 +125,32 @@ show('F -> C',
 show('C/G -> G/D',
   run('C', 'G', 1, 'C/G  Am7'),
   'G/D  Em7');
+
+// 20. detecção: última nota encontrada no texto (nota de "Em" = "E")
+show('detecção última nota',
+  detectarTom('Intro: C  G  Am  Em\nF  C  B7  Em') === 'E',
+  true);
+
+// 21. detecção com acidente (última nota com bemol)
+show('detecção última nota com acidente',
+  detectarTom('C  F  Bb  Eb') === 'Eb',
+  true);
+
+// 22. detecção sem acordes
+show('detecção sem acordes',
+  detectarTom('apenas texto sem cifras') === null,
+  true);
+
+// 23. ajustar tom atual para a última nota (nota de "Em" = "E")
+set('tom_atual', 'C');
+ajustarTomAtualParaUltimaNota('C  G  Am  Em\nF  C  B7  Em');
+show('ajustar tom atual',
+  el('tom_atual').value === 'E',
+  true);
+
+// 24. ajustar não altera quando não há acordes
+set('tom_atual', 'C');
+ajustarTomAtualParaUltimaNota('apenas texto');
+show('ajustar sem acordes mantém tom',
+  el('tom_atual').value === 'C',
+  true);

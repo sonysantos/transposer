@@ -100,6 +100,11 @@ var NOTAS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 var PITCH = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 var NATURAL = [0, 2, 4, 5, 7, 9, 11];
 var TECLAS = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'];
+var REGEX_ACORDE = /\b(?<nota>[A-G][#b]?)(°|dim|m?(\d[\+M]?)?)(?=(\/|\)| |$|\n))/g;
+
+function novaRegexAcorde() {
+  return new RegExp(REGEX_ACORDE.source, 'g');
+}
 
 function semitom(nome) {
   var p = PITCH[nome[0]];
@@ -140,7 +145,7 @@ function transposar() {
   var intervalo = (semitom(tomDesejado) - semitom(tomAtual) + 12) % 12;
   var tipo = tipoAcidente(tomDesejado);
 
-  var re = /\b(?<nota>[A-G][#b]?)(°|dim|m?(\d[\+M]?)?)(?=(\/|\)| |$|\n))/g;
+  var re = novaRegexAcorde();
   var saida = '';
   var ultimo = 0;
   var skipDir = 0;
@@ -229,6 +234,29 @@ function ligarEventos() {
   document.getElementById('fonte').addEventListener('change', aplicarFonte);
   document.getElementById('btn_colar').addEventListener('click', colarCifra);
   document.getElementById('btn_copiar').addEventListener('click', copiarCifra);
+  document.getElementById('cifra_original').addEventListener('paste', function () {
+    setTimeout(function () {
+      ajustarTomAtualParaUltimaNota(document.getElementById('cifra_original').value);
+      transposar();
+    }, 0);
+  });
+}
+
+function detectarTom(texto) {
+  var re = novaRegexAcorde();
+  var tom = null;
+  var m;
+  while ((m = re.exec(texto)) !== null) {
+    tom = m.groups.nota;
+  }
+  return tom;
+}
+
+function ajustarTomAtualParaUltimaNota(texto) {
+  var tom = detectarTom(texto);
+  if (tom && TECLAS.indexOf(tom) !== -1) {
+    document.getElementById('tom_atual').value = tom;
+  }
 }
 
 function colarCifra() {
@@ -237,6 +265,7 @@ function colarCifra() {
     navigator.clipboard.readText().then(function (texto) {
       if (texto) {
         campo.value = texto;
+        ajustarTomAtualParaUltimaNota(texto);
         transposar();
       }
     }).catch(function () {

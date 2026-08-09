@@ -38,3 +38,4 @@ interface: uma página web (index.html) totalmente em javascript frontend, para 
     - se o acorde estiver no começo da linha, todos os espaços devem ser removidos à direita;
     - se o acorde estiver no final da linha, todos os espaços devem ser removidos à esquerda.
 - ao mudar a fonte das cifras para Monospaced, o tamanho_acidente deve ser ajustado automaticamente para 1; caso contrário, deve ser ajustado para 2.
+- ao colar uma cifra (mas não ao alterá-la manualmente), o tom original deve ser ajusado automaticamente para a última nota encontrada no texto (de acordo com o regex de acorde definido acima)
